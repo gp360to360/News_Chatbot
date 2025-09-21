@@ -21,37 +21,6 @@ This repository contains the complete source code for a full-stack, Retrieval-Au
 
 The application is architected around two distinct phases: an **Offline Ingestion Process** to build the knowledge base, and a **Real-time Query Process** to handle user interactions.
 
-graph TD  
-    subgraph "User's Browser"  
-        A\[User\] \--\> B{React Frontend};  
-    end
-
-    subgraph "Backend Infrastructure"  
-        C{NestJS Backend API}  
-        D\[(Redis Cache)\]  
-        E\[(Qdrant Vector DB)\]  
-    end
-
-    subgraph "External AI Services"  
-        F(Jina AI API)  
-        G(Google Gemini API)  
-    end  
-      
-    subgraph "Offline Process"  
-       H\[Python Ingestion Script\] \-- Scrapes \--\> I((News Source));  
-       H \-- "Gets Text Embeddings" \--\> F;  
-       H \-- "Stores Embeddings" \--\> E;  
-    end
-
-    B \-- "1. HTTP Request (sessionId, message)" \--\> C;  
-    C \-- "7. Caches/Retrieves History" \--\> D;  
-    C \-- "2. Gets Query Embedding" \--\> F;  
-    C \-- "3. Searches with Embedding" \--\> E;  
-    E \-- "4. Returns Relevant Context" \--\> C;  
-    C \-- "5. Sends Prompt \+ Context" \--\> G;  
-    G \-- "6. Returns Final Answer" \--\> C;  
-    C \-- "8. Sends Final Answer to UI" \--\> B;
-
 ## **🛠️ Tech Stack**
 
 | Component | Technology |
